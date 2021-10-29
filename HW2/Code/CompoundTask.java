@@ -15,7 +15,7 @@ public class CompoundTask extends Task{
 
     @Override
     public void setCompletedDate(MyDate date){
-        if(checkSubtaskForCompletion()){
+        if(checkSubTaskForCompletion()){
             completedDate = date;
             System.out.println("Added finish date");
         }else{
@@ -26,7 +26,7 @@ public class CompoundTask extends Task{
 
     @Override
     public void setCompletedTime(Time2 time){
-        if(checkSubtaskForCompletion()){
+        if(checkSubTaskForCompletion()){
             completedTime = time;
             System.out.println("Added finish time");
         }else{
@@ -49,18 +49,18 @@ public class CompoundTask extends Task{
 
     //all subtasks must be completed first
     public void completeTask(){
-        if(getCompletedDate()!=null && getCompletedTime()!=null){
+        if(checkSubTaskForCompletion()==true){
             taskComplete = true;
         }
     }
 
-    private boolean checkSubtaskForCompletion(){
-        if(taskComplete = true){
-            return true;
-        }else{
-            return false;
+
+    private boolean checkSubTaskForCompletion(){
+        for(Task subTask: subTasks){
+            if(!subTask.isComplete()) return false;
         }
-    }
+        return true;
+    }    
 
     @Override
     public String toString(){
