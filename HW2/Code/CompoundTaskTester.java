@@ -1,0 +1,118 @@
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+public class CompoundTaskTester{
+
+    //Tests the CompundTask Title
+    //Checks to make sure the passed in title on instantiation is set.
+    //Tests setTitle and assertsTrue to make sure the setter works
+    @Test
+    public void TestCompoundTaskTitle(){
+        CompoundTask t1 = new CompoundTask("Title Test");
+        assertTrue(t1.getTitle().equals("Title Test"));
+        t1.setTitle("New Title");
+        assertTrue(t1.getTitle().equals("New Title"));
+    }
+
+    //Tests the CompundTask Description
+    //Tests setDescription and assertsTrue to make sure the setter works
+    @Test
+    public void TestCompoundTaskDescription(){
+        CompoundTask t1 = new CompoundTask("Description Test");
+        t1.setDescription("Description test");
+        assertTrue(t1.getTitle().equals("Description Test"));
+    }
+
+    //Tests addSubTask
+    @Test
+    public void TestCompoundTaskAddSubTask(){
+        CompoundTask comp = new CompoundTask("Test getSubTask");
+        SimpleTask t1 = new SimpleTask("Task 1");
+        comp.addSubTask(t1);
+        assertEquals(comp.getSubTask(0), t1);
+    }
+
+    //Tests that CompoundTask is not completed until compltion times and dates are added AND completeTask() is executed
+    @Test
+    public void TestCompoundTaskForCompletionNoSubTasks(){
+        CompoundTask t1 = new CompoundTask("Completion Test No Subtasks");
+        assertFalse(t1.isComplete());
+        t1.setCompletedDate(new MyDate(1,2,2021));
+        assertFalse(t1.isComplete());
+        t1.setCompletedTime(new Time2(9,3,35));
+        assertFalse(t1.isComplete());
+        t1.completeTask();
+        assertTrue(t1.isComplete());
+    }
+
+
+    @Test
+    public void TestCompoundTaskForCompletionSubTasks(){
+        //Instantiation
+        CompoundTask comp = new CompoundTask("Completion Tests With Subtasks");
+        SimpleTask t1 = new SimpleTask("Task 1");
+        SimpleTask t2 = new SimpleTask("Task 2");
+        SimpleTask t3 = new SimpleTask("Task 3");
+        comp.addSubTask(t1);
+        comp.addSubTask(t2);
+        comp.addSubTask(t3);
+
+        //Initial test for isComplete False
+        assertFalse(comp.isComplete());
+
+        //Task 1 completion
+        //Date
+        t1.setCompletedDate(new MyDate(3,4,2021));
+        t1.completeTask();
+        assertFalse(comp.isComplete());
+        //Time
+        t1.setCompletedTime(new Time2(5,30,37));
+        t1.completeTask();
+        assertFalse(comp.isComplete());
+
+
+        //Task 2 completion
+        //Date
+        t2.setCompletedDate(new MyDate(4,5,2021));
+        t2.completeTask();
+        assertFalse(comp.isComplete());
+        //Time
+        //Time
+        t2.setCompletedTime(new Time2(6,27,34));
+        t2.completeTask();
+        assertFalse(comp.isComplete());
+
+        //Task 3 completion
+        //Date
+        t3.setCompletedDate(new MyDate(3,4,2021));
+        t3.completeTask();
+        assertFalse(comp.isComplete());
+        //Time
+        t3.setCompletedTime(new Time2(7,50,18));
+        t3.completeTask();
+        assertFalse(comp.isComplete());
+
+        //Run CompoundTask completeTask
+        comp.completeTask();
+        assertFalse(comp.isComplete());
+        comp.setCompletedTime(new Time2(12,55,20));
+        assertFalse(comp.isComplete());
+        
+        comp.completeTask();
+        assertFalse(comp.isComplete());
+        comp.setCompletedDate(new MyDate(6,3,2021));
+        assertFalse(comp.isComplete());
+
+        comp.completeTask();
+        assertTrue(comp.isComplete());
+
+
+    }
+
+
+
+    
+
+
+
+}

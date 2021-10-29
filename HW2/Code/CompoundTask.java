@@ -49,7 +49,7 @@ public class CompoundTask extends Task{
 
     //all subtasks must be completed first
     public void completeTask(){
-        if(checkSubTaskForCompletion()==true){
+        if(getCompletedTime()!= null && getCompletedDate()!= null){
             taskComplete = true;
         }
     }
